@@ -5,7 +5,10 @@
     var width = window.innerWidth;
     var game = configure();
 
-    var vita;
+    var vita = {
+        speed: 5,
+        isMoving : false
+    };
 
     function configure() {
         var game = new Phaser.Game(
@@ -31,19 +34,38 @@
     }
 
     function addDinos() {
-        vita = game.add.sprite(game.world.centerX, game.world.centerY, 'vita');
-        vita.anchor.setTo(0.5, 0.5);
-        vita.animations.add('walk');
-        vita.animations.play('walk', 50, true);
-        game.add.tween(vita).to({ x: game.width }, 10000, Phaser.Easing.Linear.None, true);
+        vita.sprite = game.add.sprite(game.world.centerX, game.world.centerY, 'vita');
+        vita.sprite.anchor.setTo(0.5, 0.5);
+        vita.sprite.scale.x = 3
+        vita.sprite.scale.y = 3
+        vita.sprite.animations.add('run', [18, 19, 20, 21, 22, 23, 24], 1, true);
+        vita.sprite.animations.add('walk', [5,6], 1, true);
+        vita.sprite.animations.play('run', 10, true);
+        vita.isMoving = true;
+        // vita.animations.play('walk', 2, true);
+        // game.add.tween(vita).to({ x: game.width }, 10000, Phaser.Easing.Linear.None, true);
     }
 
     function update() {
 
-        if (vita.x >= 300) {
-            vita.scale.x += 0.01;
-            vita.scale.y += 0.01;
+        function updateVita() {
+            vita.sprite.animations.play('run', 10, true);
+            vita.isMoving = true;
+
+            if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
+                vita.sprite.x -= vita.speed;
+                vita.sprite.scale.setTo(-3, 3)
+            }
+            else if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
+                vita.sprite.x += vita.speed;
+                vita.sprite.scale.setTo(3, 3)
+            } else {
+                vita.isMoving = false;
+                vita.sprite.animations.stop('run');
+            }
         }
+
+        updateVita();
 
     }
 
