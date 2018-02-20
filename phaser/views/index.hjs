@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="UTF-8" />
     <title>{{ title }}</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="//cdn.jsdelivr.net/phaser/2.6.1/phaser.min.js"></script>
+    <script src="/javascripts/game.js"></script>
   </head>
   <body>
-    <h1>{{ title }}</h1>
-    <p>Welcome to {{ title }}</p>
+      {{!-- Game renders into the body via game.js --}}
+      <div id="game"></div>
   </body>
 </html>
